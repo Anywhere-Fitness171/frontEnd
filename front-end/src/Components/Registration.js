@@ -1,17 +1,32 @@
 import React from 'react'; 
-// import axios from 'axios'; 
+import axios from 'axios'; 
 
-export default function Registration({form, setForm}){
+export default function Registration({form, setForm, formReset,setUsers,users}){
 // Change Handler 
 const onChange= event =>{
     const {name, value } = event.target
     setForm({...form,[name]:value})
 }
+// Handle Submit
+const onSubmit= event => {
+    event.preventDefault()
+    const newUser={name:form.name.trim(),username:form.username.trim(),email:form.email.trim(),password:form.password.trim(),role:form.role.trim()}
+    axios.post(`https://reqres.in/api/users/`, newUser)
+    .then((response) => {
+        console.log(response.data);
+        setUsers([...users, response.data])
+        setForm(formReset); 
+        
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+}
 
     return(
         <div>
             <h1>Registration</h1>
-            <form>
+            <form onSubmit={onSubmit}>
                 <label> Name
                     <input 
                     type="text"

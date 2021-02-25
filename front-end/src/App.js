@@ -1,8 +1,9 @@
 import './App.css';
 import {BrowserRouter as Route, Switch, Link} from 'react-router-dom';
 import Registration from './Components/Registration';
-import {useState, useEffect } from 'react';
+import {useState, useEffect,axios } from 'react';
 import fitPhoto from './Photos/workout-photo.jpg';
+
 
 
 function App() {
@@ -13,8 +14,11 @@ function App() {
     password:'',
     role:''
   }
+
   const [userForm, setUserForm]= useState(initialForm);
   const [users, setUsers]= useState([]);
+
+
   
   return (
     <div className="App">
@@ -24,20 +28,30 @@ function App() {
       <br/>
       <br/>
       <Link to='/'>
-      <button>Home</button>
-       </Link>
+        <button>Home</button>
+      </Link>
+      <br/>
+      <br/>
       <div>
-        <Link to='/login'>
+       <Link to='/login'>
           <button>Login</button>
-        </Link>
+       </Link>
         &nbsp;&nbsp;
-        <Link to='/registration'>
+       <Link to='/registration'>
           <button>Registration</button>
-        </Link>
+       </Link>
       </div>
       <Switch>
         <Route exact path='/'> </Route>
-        <Route path='/registration'> <Registration form={userForm} setForm={setUserForm} /></Route>
+        <Route exact path='/registration'> 
+          <Registration 
+          form={userForm} 
+          setForm={setUserForm} 
+          formReset={initialForm}
+          setUsers={setUsers}
+          users={users}
+          />
+        </Route>
         <Route path='/login'> </Route>
       </Switch>
     </div>
