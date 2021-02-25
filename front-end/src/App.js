@@ -14,9 +14,9 @@ function App() {
     password:'',
     role:''
   }
-
-  const [userForm, setUserForm]= useState(initialForm);
-  const [users, setUsers]= useState([]);
+// Slices of State 
+  const [userForm, setUserForm]= useState(initialForm); // State to handle Form
+  const [users, setUsers]= useState([]); // State to keep track of users. Type ARRAY
 
 
   
@@ -24,7 +24,7 @@ function App() {
     <div className="App">
        <h1>Anywhere Fitness</h1>
       <h2>Fitness NOW? Fitness Anywhere...</h2>
-      <img src={fitPhoto} alt="Man working out" style={{width:'25%'}}/>
+      <img src={fitPhoto} alt="Man working out" style={{width:'40%'}}/>
       <br/>
       <br/>
       <Link to='/'>

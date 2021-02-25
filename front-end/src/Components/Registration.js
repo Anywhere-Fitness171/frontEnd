@@ -1,5 +1,12 @@
 import React from 'react'; 
 import axios from 'axios'; 
+import styled from 'styled-components'; 
+
+const FormStyle = styled.form`
+display: flex; 
+flex-direction: column; 
+`
+
 
 export default function Registration({form, setForm, formReset,setUsers,users}){
 // Change Handler 
@@ -11,7 +18,7 @@ const onChange= event =>{
 const onSubmit= event => {
     event.preventDefault()
     const newUser={name:form.name.trim(),username:form.username.trim(),email:form.email.trim(),password:form.password.trim(),role:form.role.trim()}
-    axios.post(`https://reqres.in/api/users/`, newUser)
+    axios.post(`https://reqres.in/api/users/`, newUser) // placeholder for actual endpoint 
     .then((response) => {
         console.log(response.data);
         setUsers([...users, response.data])
@@ -26,8 +33,8 @@ const onSubmit= event => {
     return(
         <div>
             <h1>Registration</h1>
-            <form onSubmit={onSubmit}>
-                <label> Name
+            <FormStyle onSubmit={onSubmit}>
+                <label> Name&nbsp;&nbsp;
                     <input 
                     type="text"
                     name="name"
@@ -35,7 +42,8 @@ const onSubmit= event => {
                     onChange={onChange}
                     />
                 </label>
-                <label> Username
+                
+                <label> Username&nbsp;&nbsp;
                     <input 
                     type="text"
                     name="username"
@@ -43,7 +51,8 @@ const onSubmit= event => {
                     onChange={onChange}
                     />
                 </label>
-                <label> Email
+                
+                <label> Email&nbsp;&nbsp;
                     <input 
                     type="email"
                     name="email"
@@ -51,7 +60,8 @@ const onSubmit= event => {
                     onChange={onChange}
                     />
                 </label>
-                <label> Password
+                
+                <label> Password&nbsp;&nbsp;
                     <input 
                     type="password"
                     name="password"
@@ -59,7 +69,8 @@ const onSubmit= event => {
                     onChange={onChange}
                     />
                 </label>
-                <label> Role
+                
+                <label> Role&nbsp;&nbsp;
                     <select name="role" 
                     value={form.role}
                     onChange={onChange}>
@@ -68,8 +79,9 @@ const onSubmit= event => {
                         <option value="instructor">Instructor</option>
                     </select>
                 </label>
-                <button> Submit!</button>
-            </form>
+                
+                <button style={{width:'10%', margin:'0 auto' }}>Submit!</button>
+            </FormStyle>
         </div>
     )
 }
