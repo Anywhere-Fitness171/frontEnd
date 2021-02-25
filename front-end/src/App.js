@@ -2,7 +2,7 @@ import './App.css';
 import {BrowserRouter as Route, Switch, Link} from 'react-router-dom';
 import fitPhoto from './Photos/workout-photo.jpg';
 import Registration from './Components/Registration';
-import {useState, useEffect, axios } from 'react';
+import {useState, useEffect } from 'react';
 
 function App() {
   const initialForm= {
