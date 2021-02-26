@@ -78,7 +78,7 @@ function App() {
       </div>
       <Switch>
         <Route exact path='/'> </Route>
-        <Route  path='/class'><Class form={classForm} setForm={setClassForm}/></Route> {/*Temporary Placement for testing Accessing Component*/}
+        <Route  path='/class'><Class form={classForm} setForm={setClassForm} classes={classes} setClases={setClasses}formReset={classFormat}/></Route> {/*Temporary Placement for testing Accessing Component*/}
         <Route exact path='/registration/'> 
           <div style={{color: 'red'}}> 
             <div>{errors.name}</div><div>{errors.username}</div><div>{errors.email}</div><div>{errors.password}</div><div>{errors.role}</div>

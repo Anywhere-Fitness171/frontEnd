@@ -1,15 +1,37 @@
+import axios from 'axios'; 
 
-
-export default function Class({form,setForm}){
-
+export default function Class({form,setForm, classes, setClasses, formReset}){
+// Change Handler for updating Class Specs
 const classOnChange= event =>{
     const {name, value } = event.target
     setForm({...form,[name]:value})
 }
+// Event Handler for Submission & Reset 
+const ClassSubmit= event => {
+    event.preventDefault()
+    const newClass={name:form.name.trim(),
+    type:form.type.trim(),
+    date_time:form.date_time.trim(),
+    duration:form.duration.trim(),
+    intensity:form.intensity.trim(),
+    location:form.location.trim(),
+    max_size:form.max_size.trim()
+}
+    axios.post(`https://reqres.in/api/users`, newClass) // placeholder for actual endpoint 
+    .then((response) => {
+        console.log(response.data);
+        setClasses([...classes, response.data])
+        setForm(formReset); 
+        
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+}
     return(
         <div>
            <h1>Class Specs</h1>
-            <form>
+            <form onSubmit={ClassSubmit}>
                 <label> Class Name&nbsp;&nbsp;
                     <input 
                     type="text"
@@ -73,8 +95,9 @@ const classOnChange= event =>{
                     onChange={classOnChange}
                     />
                 </label>
-            
-                
+                <br/>
+                <br/>
+                &nbsp;&nbsp;
                 <button style={{width:'10%', margin:'0 auto' }} >Submit!</button> 
             </form>
         </div>
