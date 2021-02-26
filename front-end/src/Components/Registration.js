@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios'; 
 import styled from 'styled-components'; 
 
+// Styling 
 const FormStyle = styled.form`
 display: flex; 
 flex-direction: column; 

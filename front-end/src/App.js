@@ -5,6 +5,7 @@ import {useState, useEffect } from 'react';
 import fitPhoto from './Assets/workout-photo.jpg';
 import Schema from './Components/Schema';
 import * as yup from 'yup';
+import Class from './Components/Class';
 
 
 
@@ -23,11 +24,24 @@ function App() {
     password:'',
     role:''
   }
+  const classFormat={
+    name:'',
+    type:'',
+    date_time:'',
+    duration:'',
+    intensity:'',
+    location:'',
+    max_size:''
+// `Current number of registered attendees`
+  }
 // Slices of State 
   const [userForm, setUserForm]= useState(initialForm); // State to handle Form
   const [users, setUsers]= useState([]); // State to keep track of users. Type ARRAY
   const [errors, setErrors]= useState(formErrors);
   const [disabled, setDisabled]=useState(true);
+  const [classForm, setClassForm]=useState(classFormat)
+  const [classes, setClasses]=useState([]);
+  
 
   const validateFormErrors = (name, value ) => {
     yup.reach(Schema, name).validate(value)
@@ -49,6 +63,9 @@ function App() {
         <button>Home</button>
       </Link>
       <br/>
+      <Link to='/class'>
+       <button>Class</button> {/*Temporary Placement for testing Accessing Component*/}
+      </Link>
       <br/>
       <div>
        <Link to='/login'>
@@ -61,7 +78,8 @@ function App() {
       </div>
       <Switch>
         <Route exact path='/'> </Route>
-        <Route exact path='/registration'> 
+        <Route  path='/class'><Class form={classForm} setForm={setClassForm}/></Route> {/*Temporary Placement for testing Accessing Component*/}
+        <Route exact path='/registration/'> 
           <div style={{color: 'red'}}> 
             <div>{errors.name}</div><div>{errors.username}</div><div>{errors.email}</div><div>{errors.password}</div><div>{errors.role}</div>
           </div>
