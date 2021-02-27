@@ -6,6 +6,6 @@ export const axiosWithAuth = () => {
         headers: {
             authorzation : token
         },
-        baseURL: 'http://localhost:5000'
+        baseURL: 'https://anywhere-fitness-171.herokuapp.com/api'
     })
 }

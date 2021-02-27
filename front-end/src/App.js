@@ -1,10 +1,9 @@
 import './App.css';
 import {BrowserRouter as Route, Switch, Link} from 'react-router-dom';
 import Registration from './Components/Registration';
-import {useState, useEffect,axios } from 'react';
+import {useState, useEffect } from 'react';
+import axios from 'axios';
 import fitPhoto from './Photos/workout-photo.jpg';
-
-
 
 function App() {
   const initialForm= {
@@ -19,7 +18,7 @@ function App() {
   const [users, setUsers]= useState([]); // State to keep track of users. Type ARRAY
 
 
-  
+
   return (
     <div className="App">
        <h1>Anywhere Fitness</h1>
