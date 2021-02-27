@@ -6,7 +6,7 @@ import fitPhoto from './Assets/workout-photo.jpg';
 import Schema from './Components/Schema';
 import * as yup from 'yup';
 import Class from './Components/Class';
-
+import LoginForm from './Components/Login';
 
 
 function App() {
@@ -40,7 +40,6 @@ function App() {
   const [errors, setErrors]= useState(formErrors);
   const [disabled, setDisabled]=useState(true);
   const [classForm, setClassForm]=useState(classFormat)
-  const [classes, setClasses]=useState([]);
   
 
   const validateFormErrors = (name, value ) => {
@@ -78,7 +77,7 @@ function App() {
       </div>
       <Switch>
         <Route exact path='/'> </Route>
-        <Route  path='/class'><Class form={classForm} setForm={setClassForm} classes={classes} setClases={setClasses}formReset={classFormat}/></Route> {/*Temporary Placement for testing Accessing Component*/}
+        <Route  path='/class'><Class form={classForm} setForm={setClassForm} formReset={classFormat}/></Route> {/*Temporary Placement for testing Accessing Component*/}
         <Route exact path='/registration/'> 
           <div style={{color: 'red'}}> 
             <div>{errors.name}</div><div>{errors.username}</div><div>{errors.email}</div><div>{errors.password}</div><div>{errors.role}</div>
@@ -93,7 +92,7 @@ function App() {
           disabled={disabled}
           />
         </Route>
-        <Route path='/login'> </Route>
+        <Route path='/login'> <LoginForm/> </Route>
       </Switch>
     </div>
   );

@@ -1,6 +1,6 @@
 import axios from 'axios'; 
 
-export default function Class({form,setForm, classes, setClasses, formReset}){
+export default function Class({form,setForm,formReset}){
 // Change Handler for updating Class Specs
 const classOnChange= event =>{
     const {name, value } = event.target
@@ -17,10 +17,9 @@ const ClassSubmit= event => {
     location:form.location.trim(),
     max_size:form.max_size.trim()
 }
-    axios.post(`https://reqres.in/api/users`, newClass) // placeholder for actual endpoint 
+    axios.post('https://anywhere-fitness-171.herokuapp.com/api/classes/', newClass) 
     .then((response) => {
         console.log(response.data);
-        setClasses([...classes, response.data])
         setForm(formReset); 
         
     })
