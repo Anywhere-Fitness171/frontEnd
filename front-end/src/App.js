@@ -6,7 +6,7 @@ import fitPhoto from './Assets/workout-photo.jpg';
 import Schema from './Components/Schema';
 import * as yup from 'yup';
 import Class from './Components/Class';
-import LoginForm from "./Components/Login";
+
 
 
 function App() {
@@ -93,11 +93,10 @@ function App() {
           disabled={disabled}
           />
         </Route>
-        <Route path='/login'><LoginForm /></Route>
+        <Route path='/login'> </Route>
       </Switch>
     </div>
   );
 }
 
 export default App;
-
