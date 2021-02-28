@@ -8,17 +8,18 @@ flex-direction: column;
 `
 
 
-export default function Registration({form, setForm, formReset, setUsers, users}){
+export default function Registration({form, setForm, formReset,setUsers,users,checkErrors, disabled}){
 // Change Handler 
 const onChange= event =>{
     const {name, value } = event.target
+    checkErrors(name, value)
     setForm({...form,[name]:value})
 }
 // Handle Submit
 const onSubmit= event => {
     event.preventDefault()
     const newUser={name:form.name.trim(),username:form.username.trim(),email:form.email.trim(),password:form.password.trim(),role:form.role.trim()}
-    axios.post(`https://anywhere-fitness-171.herokuapp.com/api/users/register`, newUser) // placeholder for actual endpoint 
+    axios.post(`https://anywhere-fitness-171.herokuapp.com/api/users/register/`, newUser) // placeholder for actual endpoint 
     .then((response) => {
         console.log(response.data);
         setUsers([...users, response.data])
@@ -80,7 +81,7 @@ const onSubmit= event => {
                     </select>
                 </label>
                 
-                <button style={{width:'10%', margin:'0 auto' }}>Submit!</button>
+                <button style={{width:'10%', margin:'0 auto' }} disabled={disabled}>Submit!</button>
             </FormStyle>
         </div>
     )
