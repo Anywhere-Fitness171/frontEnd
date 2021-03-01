@@ -1,14 +1,13 @@
 import React from 'react'; 
 import axios from 'axios'; 
 import styled from 'styled-components'; 
-import { axiosWithAuth } from '../helpers/axiosWithAuth';
 const FormStyle = styled.form`
 display: flex; 
 flex-direction: column; 
 `
 
 
-export default function Registration({form, setForm, formReset,setUsers,users,checkErrors, disabled}){
+export default function Registration({form, setForm, formReset,checkErrors, disabled}){
 // Change Handler 
 const onChange= event =>{
     const {name, value } = event.target
@@ -19,12 +18,10 @@ const onChange= event =>{
 const onSubmit= event => {
     event.preventDefault()
     const newUser={name:form.name.trim(),username:form.username.trim(),email:form.email.trim(),password:form.password.trim(),role:form.role.trim()}
-    axios.post(`https://anywhere-fitness-171.herokuapp.com/api/users/register/`, newUser) // placeholder for actual endpoint 
+    axios.post(`https://anywhere-fitness-171.herokuapp.com/api/users/register/`, newUser) 
     .then((response) => {
         console.log(response.data);
-        setUsers([...users, response.data])
         setForm(formReset); 
-        
     })
     .catch((error) => {
         console.log(error)

@@ -1,6 +1,7 @@
 import axios from 'axios'; 
+import {useHistory} from 'react-router-dom';
 
-export default function Class({form,setForm, classes, setClasses, formReset}){
+export default function Class({form,setForm,formReset}){
 // Change Handler for updating Class Specs
 const classOnChange= event =>{
     const {name, value } = event.target
@@ -17,10 +18,9 @@ const ClassSubmit= event => {
     location:form.location.trim(),
     max_size:form.max_size.trim()
 }
-    axios.post(`https://reqres.in/api/users`, newClass) // placeholder for actual endpoint 
+    axios.post('https://anywhere-fitness-171.herokuapp.com/api/classes/', newClass) 
     .then((response) => {
         console.log(response.data);
-        setClasses([...classes, response.data])
         setForm(formReset); 
         
     })
@@ -28,8 +28,15 @@ const ClassSubmit= event => {
         console.log(error)
     })
 }
+let history = useHistory();
+const signOut = () =>{
+    localStorage.removeItem('anywhere-fitness-token');
+    localStorage.removeItem('anywhere-fitness-userid');
+    history.push('/login');
+} 
     return(
         <div>
+            <button onClick={signOut}>Sign Out</button>
            <h1>Class Specs</h1>
             <form onSubmit={ClassSubmit}>
                 <label> Class Name&nbsp;&nbsp;
