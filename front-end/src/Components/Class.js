@@ -1,4 +1,5 @@
 import axios from 'axios'; 
+import {useHistory} from 'react-router-dom';
 
 export default function Class({form,setForm,formReset, checkErrors}){
 // Change Handler for updating Class Specs
@@ -28,8 +29,15 @@ const ClassSubmit= event => {
         console.log(error)
     })
 }
+let history = useHistory();
+const signOut = () =>{
+    localStorage.removeItem('anywhere-fitness-token');
+    localStorage.removeItem('anywhere-fitness-userid');
+    history.push('/login');
+} 
     return(
         <div>
+            <button onClick={signOut}>Sign Out</button>
            <h1>Class Specs</h1>
             <form onSubmit={ClassSubmit}>
                 <label> Class Name&nbsp;&nbsp;
