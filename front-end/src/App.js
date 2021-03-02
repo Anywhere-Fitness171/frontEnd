@@ -3,7 +3,8 @@ import {BrowserRouter as Route, Switch, Link} from 'react-router-dom';
 import Registration from './Components/Registration';
 import {useState, useEffect } from 'react';
 import fitPhoto from './Assets/workout-photo.jpg';
-import Schema from './Components/Schema';
+import UserSchema from './Components/Schemas';
+import ClassSchema from './Components/Schemas';
 import * as yup from 'yup';
 import Class from './Components/Class';
 import LoginForm from './Components/Login';
@@ -24,6 +25,16 @@ function App() {
     password:'',
     role:''
   }
+  const classErrors={
+    name:'',
+    type:'',
+    date_time:'',
+    duration:'',
+    intensity:'',
+    location:'',
+    max_size:''
+  }
+
   const classFormat={
     name:'',
     type:'',
@@ -38,18 +49,30 @@ function App() {
   const [userForm, setUserForm]= useState(initialForm); // State to handle Form
   const [users, setUsers]= useState([]); // State to keep track of users. Type ARRAY
   const [errors, setErrors]= useState(formErrors);
+  const [errorsClass, setErrorsClass]= useState(classErrors)
   const [disabled, setDisabled]=useState(true);
   const [classForm, setClassForm]=useState(classFormat)
   
-
+// Validate User Registration Errors 
   const validateFormErrors = (name, value ) => {
-    yup.reach(Schema, name).validate(value)
+    yup.reach(UserSchema, name).validate(value)
     .then(() => setErrors({...errors, [name]:''}))
     .catch((error) => setErrors({...errors,[name]: error.errors[0]}))
   }
   useEffect(() => {
-    Schema.isValid(userForm).then(valid => setDisabled(!valid))
+    UserSchema.isValid(userForm).then(valid => setDisabled(!valid))
   },[userForm])
+
+  // Validate Class Creation Errors 
+
+  const validateClassErrors = (name, value ) => {
+    yup.reach(ClassSchema, name).validate(value)
+    .then(() => setErrorsClass({...errorsClass, [name]:''}))
+    .catch((error) => setErrorsClass({...errorsClass,[name]: errorsClass.errors[0]}))
+  }
+  useEffect(() => {
+    ClassSchema.isValid(classForm).then(valid => setDisabled(!valid))
+  },[classForm])
 
   return (
     <div className="App">
@@ -76,8 +99,14 @@ function App() {
        </Link>
       </div>
       <Switch>
-        <Route exact path='/'> </Route>
-        <Route  path='/class'><Class form={classForm} setForm={setClassForm} formReset={classFormat}/></Route> {/*Temporary Placement for testing Accessing Component*/}
+        <Route exact path='/'> <App/> </Route>
+        <Route  path='/class'>
+          <Class 
+            form={classForm} 
+            setForm={setClassForm} 
+            formReset={classFormat}
+            checkErrors={validateClassErrors}/>
+        </Route> {/*Temporary Placement for testing Accessing Component*/}
         <Route exact path='/registration/'> 
           <div style={{color: 'red'}}> 
             <div>{errors.name}</div><div>{errors.username}</div><div>{errors.email}</div><div>{errors.password}</div><div>{errors.role}</div>

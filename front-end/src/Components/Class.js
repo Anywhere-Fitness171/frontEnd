@@ -1,9 +1,10 @@
 import axios from 'axios'; 
 
-export default function Class({form,setForm,formReset}){
+export default function Class({form,setForm,formReset, checkErrors}){
 // Change Handler for updating Class Specs
 const classOnChange= event =>{
     const {name, value } = event.target
+    checkErrors(name,value)
     setForm({...form,[name]:value})
 }
 // Event Handler for Submission & Reset 
