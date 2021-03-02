@@ -3,8 +3,7 @@ import {BrowserRouter as Route, Switch, Link} from 'react-router-dom';
 import Registration from './Components/Registration';
 import {useState, useEffect } from 'react';
 import fitPhoto from './Assets/workout-photo.jpg';
-import UserSchema from './Components/Schemas';
-import ClassSchema from './Components/Schemas';
+import { UserSchema, ClassSchema } from './Components/Schemas';
 import * as yup from 'yup';
 import Class from './Components/Class';
 import LoginForm from './Components/Login';
@@ -68,7 +67,7 @@ function App() {
   const validateClassErrors = (name, value ) => {
     yup.reach(ClassSchema, name).validate(value)
     .then(() => setErrorsClass({...errorsClass, [name]:''}))
-    .catch((error) => setErrorsClass({...errorsClass,[name]: errorsClass.errors[0]}))
+    .catch((error) => setErrorsClass({...errorsClass,[name]: error.errors[0]}))
   }
   useEffect(() => {
     ClassSchema.isValid(classForm).then(valid => setDisabled(!valid))
