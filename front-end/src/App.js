@@ -3,7 +3,7 @@ import {BrowserRouter as Route, Switch, Link} from 'react-router-dom';
 import Registration from './Components/Registration';
 import {useState, useEffect } from 'react';
 import fitPhoto from './Assets/workout-photo.jpg';
-import { UserSchema, ClassSchema } from './Components/Schemas';
+import { UserSchema } from './Components/Schemas';
 import * as yup from 'yup';
 import Class from './Components/Class';
 import LoginForm from './Components/Login';
@@ -26,33 +26,15 @@ function App() {
     password:'',
     role:''
   }
-  const classErrors={
-    name:'',
-    type:'',
-    date_time:'',
-    duration:'',
-    intensity:'',
-    location:'',
-    max_size:''
-  }
+  
 
-  const classFormat={
-    name:'',
-    type:'',
-    date_time:'',
-    duration:'',
-    intensity:'',
-    location:'',
-    max_size:''
-// `Current number of registered attendees`
-  }
+  
 // Slices of State 
   const [userForm, setUserForm]= useState(initialForm); // State to handle Form
   const [users, setUsers]= useState([]); // State to keep track of users. Type ARRAY
   const [errors, setErrors]= useState(formErrors);
-  const [errorsClass, setErrorsClass]= useState(classErrors)
   const [disabled, setDisabled]=useState(true);
-  const [classForm, setClassForm]=useState(classFormat)
+  
   
 // Validate User Registration Errors 
   const validateFormErrors = (name, value ) => {
@@ -64,17 +46,9 @@ function App() {
     UserSchema.isValid(userForm).then(valid => setDisabled(!valid))
   },[userForm])
 
-  // Validate Class Creation Errors 
+  
 
-  const validateClassErrors = (name, value ) => {
-    yup.reach(ClassSchema, name).validate(value)
-    .then(() => setErrorsClass({...errorsClass, [name]:''}))
-    .catch((error) => setErrorsClass({...errorsClass,[name]: error.errors[0]}))
-  }
-  useEffect(() => {
-    ClassSchema.isValid(classForm).then(valid => setDisabled(!valid))
-  },[classForm])
-
+  
   return (
     <div className="App">
        <h1>Anywhere Fitness</h1>
@@ -100,13 +74,9 @@ function App() {
        </Link>
       </div>
       <Switch>
-        <Route exact path='/'> <App/> </Route>
+        <Route exact path='/'> </Route>
         <Route  path='/class'>
-          <Class 
-            form={classForm} 
-            setForm={setClassForm} 
-            formReset={classFormat}
-            checkErrors={validateClassErrors}/>
+          <Class />
         </Route> {/*Temporary Placement for testing Accessing Component*/}
         <Route exact path='/registration/'> 
           <div style={{color: 'red'}}> 
