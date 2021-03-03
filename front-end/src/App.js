@@ -76,7 +76,7 @@ function App() {
       </div>
       <Switch>
         <Route exact path='/'> </Route>
-        <PrivateRoute exact path='/class' component={() => <Class checkErrors={validateClassErrors} form={classForm} setForm={setClassForm} formReset={classFormat}/>}/> {/*Temporary Placement for testing Accessing Component*/}
+        <PrivateRoute exact path='/class' component={Class}/> {/*Temporary Placement for testing Accessing Component*/}
         <Route exact path='/registration/'> 
           <div style={{color: 'red'}}> 
             <div>{errors.name}</div><div>{errors.username}</div><div>{errors.email}</div><div>{errors.password}</div><div>{errors.role}</div>

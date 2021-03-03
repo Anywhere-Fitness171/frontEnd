@@ -1,8 +1,10 @@
 import axios from 'axios'; 
 import {useState, useEffect } from 'react';
+import {axiosWithAuth} from '../helpers/axiosWithAuth'; 
 import { ClassSchema } from './Schemas';
 import * as yup from 'yup';
 import {useHistory} from 'react-router-dom';
+import Clientclass from './Clientclass';
 
 export default function Class(){
 
@@ -49,15 +51,18 @@ const classOnChange= event =>{
 }
 // Event Handler for Submission & Reset 
 const ClassSubmit= event => {
-    event.preventDefault()
-    const newClass={name:classForm.name.trim(),
-    type:classForm.type.trim(),
-    date_time:classForm.date_time.trim(),
-    duration:classForm.duration.trim(),
-    intensity:classForm.intensity.trim(),
-    location:classForm.location.trim(),
-    max_size:classForm.max_size.trim()
-}
+    event.preventDefault();
+    const userId = localStorage.getItem('anywhere-fitness-userid');
+    const newClass={
+        name:classForm.name.trim(),
+        type:classForm.type.trim(),
+        date_time:classForm.date_time.trim(),
+        duration:classForm.duration.trim(),
+        intensity:classForm.intensity.trim(),
+        location:classForm.location.trim(),
+        max_size:classForm.max_size.trim(),
+        instructor:userId
+    }   
     axios.post('https://anywhere-fitness-171.herokuapp.com/api/classes/', newClass) 
     .then((response) => {
         console.log(response.data);
@@ -72,21 +77,33 @@ let history = useHistory();
 const signOut = () =>{
     localStorage.removeItem('anywhere-fitness-token');
     localStorage.removeItem('anywhere-fitness-userid');
+    localStorage.removeItem('user-type');
     history.push('/login');
 } 
+const endMembership = () =>{
+    const userId = localStorage.getItem('anywhere-fitness-userid');
+    axiosWithAuth().delete(`/users/${userId}`)
+        .then((response) => {
+            console.log(response.data);
+            localStorage.removeItem('anywhere-fitness-token');
+            localStorage.removeItem('anywhere-fitness-userid');
+            localStorage.removeItem('user-type');
+            history.push('/login');
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
+
+const userType = localStorage.getItem('user-type');
+
     return(
         <div>
             <button onClick={signOut}>Sign Out</button>
-           <h1>Class Specs</h1>
-           <div style={{color: 'red'}}> {/*Error Messages for Instructor*/}
-                <div>{errorsClass.name}</div>
-                <div>{errorsClass.type}</div>
-                <div>{errorsClass.date_time}</div>
-                <div>{errorsClass.duration}</div>
-                <div>{errorsClass.intensity}</div>
-                <div>{errorsClass.location}</div>
-                <div>{errorsClass.max_size}</div>
-          </div>
+            <button onClick={endMembership}>End Membership</button>
+            {userType === 'instructor' ?
+            <div>
+           <h1>Instructor Dashboard</h1>
             <form onSubmit={ClassSubmit}>
                 <label> Class Name&nbsp;&nbsp;
                     <input 
@@ -154,8 +171,11 @@ const signOut = () =>{
                 <br/>
                 <br/>
                 &nbsp;&nbsp;
-                <button style={{width:'10%', margin:'0 auto' }} disabled={disabled}>Submit!</button> 
+                <button style={{width:'10%', margin:'0 auto' }}  disabled={disabled}>Submit!</button> 
             </form>
+            </div>:
+            <div><Clientclass/></div>
+            }
         </div>
     )
 }
