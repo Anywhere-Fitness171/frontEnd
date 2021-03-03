@@ -2,6 +2,7 @@ import axios from 'axios';
 import {useState, useEffect } from 'react';
 import { ClassSchema } from './Schemas';
 import * as yup from 'yup';
+import {useHistory} from 'react-router-dom';
 
 export default function Class(){
 
@@ -67,8 +68,15 @@ const ClassSubmit= event => {
         console.log(error)
     })
 }
+let history = useHistory();
+const signOut = () =>{
+    localStorage.removeItem('anywhere-fitness-token');
+    localStorage.removeItem('anywhere-fitness-userid');
+    history.push('/login');
+} 
     return(
         <div>
+            <button onClick={signOut}>Sign Out</button>
            <h1>Class Specs</h1>
            <div style={{color: 'red'}}> {/*Error Messages for Instructor*/}
                 <div>{errorsClass.name}</div>

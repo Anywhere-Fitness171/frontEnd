@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter as Route, Switch, Link} from 'react-router-dom';
+import {Route, Switch, Link} from 'react-router-dom';
 import Registration from './Components/Registration';
 import {useState, useEffect } from 'react';
 import fitPhoto from './Assets/workout-photo.jpg';
@@ -7,6 +7,7 @@ import { UserSchema } from './Components/Schemas';
 import * as yup from 'yup';
 import Class from './Components/Class';
 import LoginForm from './Components/Login';
+import PrivateRoute from './Utils/PrivateRoute';
 
 // Component where Instructor can see it's individually created classes.
 // Component where one can see a list of all created classes This component has the ability to register for the classes. 
@@ -75,9 +76,7 @@ function App() {
       </div>
       <Switch>
         <Route exact path='/'> </Route>
-        <Route  path='/class'>
-          <Class />
-        </Route> {/*Temporary Placement for testing Accessing Component*/}
+        <PrivateRoute exact path='/class' component={() => <Class checkErrors={validateClassErrors} form={classForm} setForm={setClassForm} formReset={classFormat}/>}/> {/*Temporary Placement for testing Accessing Component*/}
         <Route exact path='/registration/'> 
           <div style={{color: 'red'}}> 
             <div>{errors.name}</div><div>{errors.username}</div><div>{errors.email}</div><div>{errors.password}</div><div>{errors.role}</div>
