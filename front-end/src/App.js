@@ -3,13 +3,15 @@ import {Route, Switch, Link} from 'react-router-dom';
 import Registration from './Components/Registration';
 import {useState, useEffect } from 'react';
 import fitPhoto from './Assets/workout-photo.jpg';
-import { UserSchema, ClassSchema } from './Components/Schemas';
+import { UserSchema } from './Components/Schemas';
 import * as yup from 'yup';
 import Class from './Components/Class';
 import LoginForm from './Components/Login';
 import PrivateRoute from './Utils/PrivateRoute';
 
-
+// Component where Instructor can see it's individually created classes.
+// Component where one can see a list of all created classes This component has the ability to register for the classes. 
+// Work on error validation in Class Schema
 function App() {
   const initialForm= {
     name: '',
@@ -25,33 +27,15 @@ function App() {
     password:'',
     role:''
   }
-  const classErrors={
-    name:'',
-    type:'',
-    date_time:'',
-    duration:'',
-    intensity:'',
-    location:'',
-    max_size:''
-  }
+  
 
-  const classFormat={
-    name:'',
-    type:'',
-    date_time:'',
-    duration:'',
-    intensity:'',
-    location:'',
-    max_size:''
-// `Current number of registered attendees`
-  }
+  
 // Slices of State 
   const [userForm, setUserForm]= useState(initialForm); // State to handle Form
   const [users, setUsers]= useState([]); // State to keep track of users. Type ARRAY
   const [errors, setErrors]= useState(formErrors);
-  const [errorsClass, setErrorsClass]= useState(classErrors)
   const [disabled, setDisabled]=useState(true);
-  const [classForm, setClassForm]=useState(classFormat)
+  
   
 // Validate User Registration Errors 
   const validateFormErrors = (name, value ) => {
@@ -63,17 +47,9 @@ function App() {
     UserSchema.isValid(userForm).then(valid => setDisabled(!valid))
   },[userForm])
 
-  // Validate Class Creation Errors 
+  
 
-  const validateClassErrors = (name, value ) => {
-    yup.reach(ClassSchema, name).validate(value)
-    .then(() => setErrorsClass({...errorsClass, [name]:''}))
-    .catch((error) => setErrorsClass({...errorsClass,[name]: error.errors[0]}))
-  }
-  useEffect(() => {
-    ClassSchema.isValid(classForm).then(valid => setDisabled(!valid))
-  },[classForm])
-
+  
   return (
     <div className="App">
        <h1>Anywhere Fitness</h1>
