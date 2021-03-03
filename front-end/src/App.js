@@ -1,15 +1,18 @@
 import './App.css';
-import {BrowserRouter as Route, Switch, Link} from 'react-router-dom';
+import {Route, Switch, Link} from 'react-router-dom';
 import Registration from './Components/Registration';
 import {useState, useEffect } from 'react';
 import fitPhoto from './Assets/workout-photo.jpg';
-import Schema from './Components/Schema';
+import { UserSchema } from './Components/Schemas';
 import * as yup from 'yup';
 import Class from './Components/Class';
 import LoginForm from './Components/Login';
+import PrivateRoute from './Utils/PrivateRoute';
 
 
-
+// Component where Instructor can see it's individually created classes.
+// Component where one can see a list of all created classes This component has the ability to register for the classes. 
+// Work on error validation in Class Schema
 function App() {
   const initialForm= {
     name: '',
@@ -25,34 +28,29 @@ function App() {
     password:'',
     role:''
   }
-  const classFormat={
-    name:'',
-    type:'',
-    date_time:'',
-    duration:'',
-    intensity:'',
-    location:'',
-    max_size:''
-// `Current number of registered attendees`
-  }
+  
+
+  
 // Slices of State 
   const [userForm, setUserForm]= useState(initialForm); // State to handle Form
   const [users, setUsers]= useState([]); // State to keep track of users. Type ARRAY
   const [errors, setErrors]= useState(formErrors);
   const [disabled, setDisabled]=useState(true);
-  const [classForm, setClassForm]=useState(classFormat)
-  const [classes, setClasses]=useState([]);
   
-
+  
+// Validate User Registration Errors 
   const validateFormErrors = (name, value ) => {
-    yup.reach(Schema, name).validate(value)
+    yup.reach(UserSchema, name).validate(value)
     .then(() => setErrors({...errors, [name]:''}))
     .catch((error) => setErrors({...errors,[name]: error.errors[0]}))
   }
   useEffect(() => {
-    Schema.isValid(userForm).then(valid => setDisabled(!valid))
+    UserSchema.isValid(userForm).then(valid => setDisabled(!valid))
   },[userForm])
 
+  
+
+  
   return (
     <div className="App">
        <h1>Anywhere Fitness</h1>
@@ -79,7 +77,7 @@ function App() {
       </div>
       <Switch>
         <Route exact path='/'> </Route>
-        <Route  path='/class'><Class form={classForm} setForm={setClassForm} classes={classes} setClases={setClasses}formReset={classFormat}/></Route> {/*Temporary Placement for testing Accessing Component*/}
+        <PrivateRoute exact path='/class' component={() => <Class checkErrors={validateClassErrors} form={classForm} setForm={setClassForm} formReset={classFormat}/>}/> {/*Temporary Placement for testing Accessing Component*/}
         <Route exact path='/registration/'> 
           <div style={{color: 'red'}}> 
             <div>{errors.name}</div><div>{errors.username}</div><div>{errors.email}</div><div>{errors.password}</div><div>{errors.role}</div>

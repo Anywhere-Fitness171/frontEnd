@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import './Login-stylesheet.css'
-import axios from 'axios'
-
+import './Login-stylesheet.css';
+import axios from 'axios';
+import {useHistory} from 'react-router-dom';
 
 
 
 
 export default function LoginForm() {
   // const [form, setForm] = useState(loginForm)
+  let history = useHistory();
   const loginForm = {
     username: "",
     password: ""
@@ -25,11 +26,14 @@ export default function LoginForm() {
     const newLogin = {username:login.username.trim(),password:login.password.trim()}
     axios.post("https://anywhere-fitness-171.herokuapp.com/api/users/login/", newLogin)
       .then((response) => {
-        console.log(response.data)
-        setLogin(loginForm)
+        console.log(response.data);
+        localStorage.setItem('anywhere-fitness-token',response.data.token);
+        localStorage.setItem('anywhere-fitness-userid',response.data.userId);
+        history.push('/class');
+        setLogin(loginForm);
       })
       .catch((error) => {
-        console.log(error.data)
+        console.log(error)
       })
   }
 
