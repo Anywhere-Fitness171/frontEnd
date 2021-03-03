@@ -18,8 +18,14 @@ const ClassSchema = yup.object().shape({
     max_size:yup.string().required('max size is required')
 })
 
+const LoginSchema = yup.object().shape({
+    username:yup.string().required('username is required').min(2, 'username requires more than 2 characters'),
+    password:yup.string().required().min(6,'password must be at least 6 characters long')
+})
+
 
 export{
     UserSchema,
-    ClassSchema
+    ClassSchema,
+    LoginSchema
 }

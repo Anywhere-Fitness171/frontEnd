@@ -1,23 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Login-stylesheet.css';
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
-
+import lobbygym from '../Assets/gym-lobby.jpg'
+import { LoginSchema } from './Schemas';
+import * as yup from 'yup';
 
 
 
 export default function LoginForm() {
   // const [form, setForm] = useState(loginForm)
   let history = useHistory();
+  
   const loginForm = {
     username: "",
     password: ""
   }
-  
+
+  const loginErrors= {
+    username:'',
+    password:''
+  }
   const [login, setLogin] = useState(loginForm);
+  const [errors, setErrors] = useState(loginErrors);
+  const [disabled, setDisabled]= useState(true)
+
+  const validateLoginErrors = (name, value ) => {
+    yup.reach(LoginSchema, name).validate(value)
+    .then(() => setErrors({...errors, [name]:''}))
+    .catch((error) => setErrors({...errors,[name]: error.errors[0]}))
+  }
+  useEffect(() => {
+    LoginSchema.isValid(loginForm).then(valid => setDisabled(!valid))
+  },[loginForm])
 
   const onChange = event => {
     const {name, value} = event.target
+    validateLoginErrors(name,value);
     setLogin({...login, [name]: value})
   }
 
@@ -37,14 +56,17 @@ export default function LoginForm() {
       })
   }
 
-  let headerImg = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwynnlocations.com%2Flocation%2Flobby%2Fluma-lobby-gym%2F&psig=AOvVaw29x4eahrk6zrF4jqooXNYj&ust=1614394673148000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOiwkvrGhu8CFQAAAAAdAAAAABAJ";    
+  
     return (
         <div className="Login">
           <header className="Login-header">
             <h1>Login</h1>
-            <img src={headerImg} alt="gym lobby" />
+            <img src={lobbygym} alt="gym lobby" />
           </header>
-
+          <div style={{color: 'red'}}> 
+            <div>{errors.username}</div>
+            <div>{errors.password}</div>
+          </div>
           <form onSubmit={onSubmit}>
             <div className="Login-inputs">
               <label>
@@ -67,7 +89,7 @@ export default function LoginForm() {
               </label>
             </div>
             <div className="submit-button">
-              <button>Submit</button>
+              <button disabled={disabled}>Submit</button>
             </div>
           </form>
         </div>
