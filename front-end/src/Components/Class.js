@@ -1,5 +1,4 @@
-import axios from 'axios'; 
-import {useState, useEffect } from 'react';
+ import {useState, useEffect } from 'react';
 import {axiosWithAuth} from '../helpers/axiosWithAuth'; 
 import { ClassSchema } from './Schemas';
 import * as yup from 'yup';
@@ -30,6 +29,10 @@ export default function Class(){
       const [classForm, setClassForm]=useState(classFormat)
       const [errorsClass, setErrorsClass]= useState(classErrors)
       const [disabled, setDisabled]=useState(true);
+      const [allClasses, setAllClasses] = useState([]);
+    const [showUpdateButton, setShowUpdateButton] = useState(false);
+    const [classId, setClassId] = useState(0);
+    const [updateCards, setUpdateCards] = useState(false);
 
       // Validate Class Creation Errors 
 
@@ -39,9 +42,23 @@ export default function Class(){
         .catch((error) => setErrorsClass({...errorsClass,[name]: error.errors[0]}))
       }
       useEffect(() => {
-        ClassSchema.isValid(classForm).then(valid => setDisabled(!valid))
+        ClassSchema.isValid(classForm).then(valid => setDisabled(!valid));
       },[classForm])
-    
+      
+      useEffect(() => {
+        axiosWithAuth().get('/classes')
+        .then((response) => {
+            const userId = localStorage.getItem('anywhere-fitness-userid');
+            console.log(response.data);
+            const items = response.data.filter((item) => (
+                item.user_id === parseInt(userId)
+            ));
+            setAllClasses(items);
+        })
+        .catch((response) => {
+            console.log(response.data);
+        })
+      },[updateCards])
 
     // Change Handler for updating Class Specs
 const classOnChange= event =>{
@@ -61,13 +78,13 @@ const ClassSubmit= event => {
         intensity:classForm.intensity.trim(),
         location:classForm.location.trim(),
         max_size:classForm.max_size.trim(),
-        instructor:userId
+        instructor_id:userId
     }   
-    axios.post('https://anywhere-fitness-171.herokuapp.com/api/classes/', newClass) 
+    axiosWithAuth().post('/classes/', newClass) 
     .then((response) => {
         console.log(response.data);
         setClassForm(classFormat); 
-        
+        setUpdateCards(updateCards => !updateCards);  
     })
     .catch((error) => {
         console.log(error)
@@ -95,8 +112,63 @@ const endMembership = () =>{
         })
 }
 
-const userType = localStorage.getItem('user-type');
+const setClassDetails = (classId) =>{
+    const currentClass = allClasses.filter((item) =>(item.id === parseInt(classId)));
+    setClassForm({
+        name: currentClass[0].name,
+        type: currentClass[0].type,
+        date_time: currentClass[0].date_time,
+        duration: currentClass[0].duration,
+        intensity: currentClass[0].intensity,
+        location: currentClass[0].location,
+        max_size: currentClass[0].max_size
+    })
+    setShowUpdateButton(true);
+    setClassId(classId);
+}
 
+const updateClassDetails = event => {
+    event.preventDefault();
+    const userId = localStorage.getItem('anywhere-fitness-userid');
+    const currentClass ={
+        name:classForm.name.trim(),
+        type:classForm.type.trim(),
+        date_time:classForm.date_time.trim(),
+        duration:classForm.duration.trim(),
+        intensity:classForm.intensity.trim(),
+        location:classForm.location.trim(),
+        max_size:classForm.max_size,
+        instructor_id:userId
+    } 
+    axiosWithAuth().put(`/classes/${classId}`,currentClass)
+        .then((response) => {
+            console.log(response.data);
+            setUpdateCards(updateCards => !updateCards);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
+
+const deleteClass = (classId) => {
+    axiosWithAuth().delete(`/classes/${classId}`)
+    .then((response) => {
+        console.log(response.data);
+        setUpdateCards(updateCards => !updateCards);
+        setClassForm(classFormat);
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+}
+
+const showSubmitButton = event =>{
+    event.preventDefault();
+    setShowUpdateButton(false);
+    setClassForm(classFormat);
+}
+
+const userType = localStorage.getItem('user-type');
     return(
         <div>
             <button onClick={signOut}>Sign Out</button>
@@ -171,8 +243,34 @@ const userType = localStorage.getItem('user-type');
                 <br/>
                 <br/>
                 &nbsp;&nbsp;
-                <button style={{width:'10%', margin:'0 auto' }}  disabled={disabled}>Submit!</button> 
+                {
+                    showUpdateButton ?
+                    <div>
+                        <button style={{width:'10%', margin:'0 auto' }} onClick={updateClassDetails}>Update!</button> 
+                        <br/>
+                        <button style={{width:'10%', margin:'0 auto' }} onClick={showSubmitButton}>Add New Class!</button> 
+                    </div>
+                    :
+                    <button style={{width:'10%', margin:'0 auto' }}  disabled={disabled}>Submit!</button> 
+                } 
             </form>
+            <div>
+                <h3>Your Classes</h3>
+                <div className="cards">
+                {
+                    allClasses.map((item,index) => (
+                        <div className="card instructorCard" key={index} onClick={() => setClassDetails(item.id)}>
+                            <p>{item.name}</p>
+                            <p>{item.type}</p>
+                            <p>{item.date_time}</p>
+                            <p>{item.duration}</p>
+                            <p>{item.location}</p>
+                            <button onClick={() => deleteClass(item.id)}>Delete</button>
+                        </div>
+                    ))
+                }
+                </div>
+            </div>
             </div>:
             <div><Clientclass/></div>
             }
