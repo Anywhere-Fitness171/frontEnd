@@ -45,7 +45,8 @@ export default function Clientclass(){
 
     const unregisterFromClass = (classId) => {
         const userIdNum = parseInt(userId);
-        axiosWithAuth().delete(`/classes/${classId}/attendees`,{user_id:userIdNum})
+        const classIdNum = parseInt(classId);
+        axiosWithAuth().delete(`/classes/${classIdNum}/attendees`,{data:{user_id:userIdNum}})
         .then((response) => {
             console.log(response.data);
             setUpdateCards(updateCards => !updateCards);
@@ -98,7 +99,7 @@ export default function Clientclass(){
                                 <p>{item.date_time}</p>
                                 <p>{item.duration}</p>
                                 <p>{item.location}</p>
-                                <button onClick={() =>unregisterFromClass(item.id)}>UnRegister</button>
+                                <button onClick={() =>unregisterFromClass(item.class_id)}>UnRegister</button>
                             </div>
                         ))
                     }
