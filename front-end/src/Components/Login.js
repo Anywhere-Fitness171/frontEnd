@@ -37,7 +37,7 @@ export default function LoginForm() {
       })
   }
 
-  let headerImg = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwynnlocations.com%2Flocation%2Flobby%2Fluma-lobby-gym%2F&psig=AOvVaw29x4eahrk6zrF4jqooXNYj&ust=1614394673148000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOiwkvrGhu8CFQAAAAAdAAAAABAJ";    
+  let headerImg = null;
     return (
         <div className="Login">
           <header className="Login-header">
