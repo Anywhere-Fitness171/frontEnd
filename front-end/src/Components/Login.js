@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Login-stylesheet.css';
 import axios from 'axios';
+import {axiosWithAuth} from '../helpers/axiosWithAuth'; 
 import {useHistory} from 'react-router-dom';
 import lobbygym from '../Assets/gym-lobby.jpg'
 import { LoginSchema } from './Schemas';
@@ -48,14 +49,22 @@ export default function LoginForm() {
         console.log(response.data);
         localStorage.setItem('anywhere-fitness-token',response.data.token);
         localStorage.setItem('anywhere-fitness-userid',response.data.userId);
-        history.push('/class');
-        setLogin(loginForm);
+        axiosWithAuth().get(`/users/${response.data.userId}`)
+          .then((response) => {
+            localStorage.setItem('user-type',response.data.role);
+            setLogin(loginForm);
+            history.push('/class');
+          })
+          .catch((error) => {
+            console.log(error);
+          })
       })
       .catch((error) => {
         console.log(error)
       })
   }
 
+ // let headerImg = null;
   
     return (
         <div className="Login">

@@ -9,6 +9,7 @@ import LoginForm from './Components/Login';
 import PrivateRoute from './Utils/PrivateRoute';
 import Home from './Components/Home';
 
+
 // Component where Instructor can see it's individually created classes.
 // Component where one can see a list of all created classes This component has the ability to register for the classes. 
 // Work on error validation in Class Schema
