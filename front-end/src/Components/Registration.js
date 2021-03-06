@@ -1,10 +1,9 @@
 import React from 'react'; 
 import axios from 'axios'; 
 import styled from 'styled-components'; 
-const FormStyle = styled.form`
-display: flex; 
-flex-direction: column; 
-`
+import yogapic from '../Assets/yoga-workout.jpg';
+import '../Styles/component-stylesheet.css'
+
 
 
 export default function Registration({form, setForm, formReset,checkErrors, disabled}){
@@ -29,57 +28,66 @@ const onSubmit= event => {
 }
 
     return(
-        <div>
-            <h1>Registration</h1>
-            <FormStyle onSubmit={onSubmit}>
-                <label> Name&nbsp;&nbsp;
-                    <input 
-                    type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={onChange}
-                    />
-                </label>
-                
-                <label> Username&nbsp;&nbsp;
-                    <input 
-                    type="text"
-                    name="username"
-                    value={form.username}
-                    onChange={onChange}
-                    />
-                </label>
-                
-                <label> Email&nbsp;&nbsp;
-                    <input 
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={onChange}
-                    />
-                </label>
-                
-                <label> Password&nbsp;&nbsp;
-                    <input 
-                    type="password"
-                    name="password"
-                    value={form.password}
-                    onChange={onChange}
-                    />
-                </label>
-                
-                <label> Role&nbsp;&nbsp;
-                    <select name="role" 
-                    value={form.role}
-                    onChange={onChange}>
-                        <option value="">---Please Select your Role---</option>
-                        <option value="client">Client</option>
-                        <option value="instructor">Instructor</option>
-                    </select>
-                </label>
-                
-                <button style={{width:'10%', margin:'0 auto' }} disabled={disabled}>Submit!</button>
-            </FormStyle>
+        <div className='parent-container'>
+            <div className='registration'>
+                <h1>Registration</h1>
+            </div>
+            <h2>Your fitness journey starts now...</h2>
+            <img src={yogapic} alt="Woman doing yoga" style={{width:'50%'}} />
+            <br/>
+            <br/>
+            <div className='form-container'>
+                <form className= 'form-elements'onSubmit={onSubmit}>
+                    <label> Name
+                        <input 
+                        type="text"
+                        name="name"
+                        value={form.name}
+                        onChange={onChange}
+                        />
+                    </label>
+                    
+                    <label> Username
+                        <input 
+                        type="text"
+                        name="username"
+                        value={form.username}
+                        onChange={onChange}
+                        />
+                    </label>
+                    
+                    <label> Email
+                        <input 
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={onChange}
+                        />
+                    </label>
+                    
+                    <label> Password
+                        <input 
+                        type="password"
+                        name="password"
+                        value={form.password}
+                        onChange={onChange}
+                        />
+                    </label>
+                    
+                    <label> Role
+                        <br/>
+                        <select name="role" 
+                        value={form.role}
+                        onChange={onChange}>
+                            <option value="">---Please Select your Role---</option>
+                            <option value="client">Client</option>
+                            <option value="instructor">Instructor</option>
+                        </select>
+                    </label>
+                    
+                    <button style={{width:'10%', margin:'0 auto' }} disabled={disabled}>Submit!</button>
+                </form>
+            </div>
         </div>
     )
 }
