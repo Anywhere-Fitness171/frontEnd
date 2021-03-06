@@ -30,9 +30,11 @@ export default function Class(){
       const [errorsClass, setErrorsClass]= useState(classErrors)
       const [disabled, setDisabled]=useState(true);
       const [allClasses, setAllClasses] = useState([]);
-    const [showUpdateButton, setShowUpdateButton] = useState(false);
-    const [classId, setClassId] = useState(0);
-    const [updateCards, setUpdateCards] = useState(false);
+      const [showUpdateButton, setShowUpdateButton] = useState(false);
+      const [classId, setClassId] = useState(0);
+      const [updateCards, setUpdateCards] = useState(false);
+      const [totalAttendees, setTotalAttendees] = useState(0);
+      const [registeredClients, setRegisteredClients] = useState([]);
 
       // Validate Class Creation Errors 
 
@@ -125,6 +127,20 @@ const setClassDetails = (classId) =>{
     })
     setShowUpdateButton(true);
     setClassId(classId);
+    axiosWithAuth().get(`/classes/${classId}/attendeesNum`)
+        .then((response) => {
+            setTotalAttendees(response.data[0].attendees_amount);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    axiosWithAuth().get(`/classes/${classId}/attendees`)
+        .then((response) => {
+            setRegisteredClients(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
 }
 
 const updateClassDetails = event => {
@@ -240,19 +256,42 @@ const userType = localStorage.getItem('user-type');
                     onChange={classOnChange}
                     />
                 </label>
-                <br/>
-                <br/>
-                &nbsp;&nbsp;
-                {
-                    showUpdateButton ?
-                    <div>
-                        <button style={{width:'10%', margin:'0 auto' }} onClick={updateClassDetails}>Update!</button> 
-                        <br/>
-                        <button style={{width:'10%', margin:'0 auto' }} onClick={showSubmitButton}>Add New Class!</button> 
+                <div className="row">
+                    { totalAttendees > 0 ?
+                        <div className="column">
+                            <p>Total Num of Attendees:</p> 
+                            <strong>{totalAttendees}</strong>
+                        </div>
+                        :
+                        <span></span>
+                    }
+                    <div className="column">
+                    {
+                        showUpdateButton ?
+                        <div>
+                            <button onClick={updateClassDetails}>Update!</button> 
+                            <br/>
+                            <button onClick={showSubmitButton}>Add New Class!</button> 
+                        </div>
+                        :
+                        <div>
+                            <br/>
+                            <button disabled={disabled}>Submit!</button> 
+                        </div>
+                    }
                     </div>
-                    :
-                    <button style={{width:'10%', margin:'0 auto' }}  disabled={disabled}>Submit!</button> 
-                } 
+                    {
+                        registeredClients.length > 0 ?
+                        <div className="column">
+                            <p>Registered Clients:</p>
+                            {registeredClients.map((item,index) => (
+                                <li className="attendeeNames" key={index}>{item.attendee_name}</li>
+                            ))}
+                        </div>
+                        :
+                        <span></span>
+                    }
+                </div>
             </form>
             <div>
                 <h3>Your Classes</h3>
