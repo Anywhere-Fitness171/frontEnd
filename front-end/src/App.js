@@ -64,7 +64,7 @@ function App() {
       </Link>
       <br/>
       <br/>
-      <div>
+      <div className=''>
        <Link to='/login'>
           <button>Login</button>
        </Link>
@@ -72,6 +72,8 @@ function App() {
        <Link to='/registration'>
           <button>Registration</button>
        </Link>
+       <br/>
+       <br/>
       </div>
       <Switch>
         <Route exact path='/'> <Home/> </Route>
