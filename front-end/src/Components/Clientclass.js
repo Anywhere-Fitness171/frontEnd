@@ -87,23 +87,25 @@ export default function Clientclass(){
             <div>
                 {
                     clientClasses.length>0 ?
+                    <div>
                     <h3>Registered Classes</h3>
+                        <div className="cards">
+                        {
+                            clientClasses.map((item,index) => (
+                                <div className="card" key={index}>
+                                    <p>{item.name}</p>
+                                    <p>{item.type}</p>
+                                    <p>{item.date_time}</p>
+                                    <p>{item.duration}</p>
+                                    <p>{item.location}</p>
+                                    <button onClick={() =>unregisterFromClass(item.class_id)}>UnRegister</button>
+                                </div>
+                            ))
+                        }
+                        </div>
+                    </div>
                     :<span></span>
                 }
-                <div className="cards">
-                    {
-                        clientClasses.map((item,index) => (
-                            <div className="card" key={index}>
-                                <p>{item.name}</p>
-                                <p>{item.type}</p>
-                                <p>{item.date_time}</p>
-                                <p>{item.duration}</p>
-                                <p>{item.location}</p>
-                                <button onClick={() =>unregisterFromClass(item.class_id)}>UnRegister</button>
-                            </div>
-                        ))
-                    }
-                </div>
             </div>
         </div>
     )
