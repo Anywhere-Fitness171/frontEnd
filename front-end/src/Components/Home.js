@@ -1,5 +1,6 @@
 import fitPhoto from '../Assets/workout-photo.jpg';
 
+
 export default function Home(){
     return(
         <div>

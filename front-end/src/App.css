@@ -391,3 +391,26 @@ html {
   flex-basis: 100%;
   flex: 1;
 }
+.cards{
+display: flexbox; 
+flex-flow: row wrap;
+width: 50%; 
+margin: 0 auto; 
+}
+.card{
+  margin-bottom: 2rem; 
+  border: 2px dashed black; 
+}
+.card:hover{
+  transform: scale(1.1,1.1);
+  background-color: rgba(214, 116, 59, 0.514);
+}
+.card button:hover{
+background-color:rgba(156, 38, 117, 0.7);
+}
+
+.cards-container{
+  border: 2px dashed black; 
+  width: 90%; 
+  margin: 2rem auto; 
+}

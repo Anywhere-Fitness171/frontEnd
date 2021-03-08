@@ -10,6 +10,7 @@ import PrivateRoute from './Utils/PrivateRoute';
 import Home from './Components/Home';
 
 
+
 // Component where Instructor can see it's individually created classes.
 // Component where one can see a list of all created classes This component has the ability to register for the classes. 
 // Work on error validation in Class Schema
@@ -53,16 +54,15 @@ function App() {
   
   return (
     <div className="App">
-      {/* <br/>
-      <br/> */}
+     
       <Link to='/'>
-        <button>Home</button>
+        <button style={{marginTop:'2rem'}}>Home</button>
       </Link>
       
       <br/>
-      <Link to='/class'>
-       <button>Class</button> {/*Temporary Placement for testing Accessing Component*/}
-      </Link>
+      {/* <Link to='/class'>
+       <button>Class</button> {/*Temporary Placement for testing Accessing Component
+      </Link> */}
       <br/>
       <br/>
       <div className=''>

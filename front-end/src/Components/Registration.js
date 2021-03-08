@@ -1,6 +1,5 @@
 import React from 'react'; 
-import axios from 'axios'; 
-import styled from 'styled-components'; 
+import axios from 'axios';  
 import yogapic from '../Assets/yoga-workout.jpg';
 import '../Styles/component-stylesheet.css'
 
@@ -85,7 +84,7 @@ const onSubmit= event => {
                         </select>
                     </label>
                     
-                    <button style={{width:'10%', margin:'0 auto' }} disabled={disabled}>Submit!</button>
+                    <button style={{margin:'0 auto' }} disabled={disabled}>Submit!</button>
                 </form>
             </div>
         </div>
