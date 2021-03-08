@@ -74,7 +74,7 @@ export default function Clientclass(){
     const searchSubmit = (event) =>{
         event.preventDefault();
         console.log(search.date_time.substring(0,search.date_time.length - 6));
-        const items = allClasses.filter((item => {
+        const items = allClasses.filter((item ) => {
             if(search.type !== ''){
                 return item.type.includes(search.type);
             }
@@ -90,7 +90,8 @@ export default function Clientclass(){
             if(search.location !== ''){
                 return item.location.toLowerCase().includes(search.location.toLowerCase());
             }
-        }));
+            return item;
+        });
         setSearch(searchForm);
         setDisabled(true);
         setAllClasses(items);
