@@ -31,7 +31,7 @@ export default function LoginForm() {
     .catch((error) => setErrors({...errors,[name]: error.errors[0]}))
   }
   useEffect(() => {
-    LoginSchema.isValid(loginForm).then(valid => setDisabled(!valid))
+    LoginSchema.isValid(loginForm).then(valid => setDisabled(valid))
   },[loginForm])
 
   const onChange = event => {
@@ -98,7 +98,7 @@ export default function LoginForm() {
               </label>
             </div>
             <div className="submit-button">
-              <button>Submit</button>
+              <button disabled={disabled}>Submit</button>
             </div>
           </form>
         </div>
