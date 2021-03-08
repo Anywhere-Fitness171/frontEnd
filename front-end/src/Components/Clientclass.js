@@ -110,7 +110,7 @@ export default function Clientclass(){
     return(
         <div>
             <h1>Client Dashboard</h1>  
-            <form onSubmit={searchSubmit}>
+            <form className="class-form" onSubmit={searchSubmit}>
                 <label> Type&nbsp;&nbsp;
                     <select name="type" 
                     value={search.type}
@@ -157,52 +157,57 @@ export default function Clientclass(){
                     onChange={searchFormChange}
                     />
                 </label>
-                <button disabled={disabled}>Search</button>
-                <button onClick={resetForm}>Reset</button>
+                    <div className="search-reset"> 
+                        <button disabled={disabled}>Search</button>
+                        &nbsp;&nbsp;
+                        <button onClick={resetForm}>Reset</button>
+                    </div>
             </form>      
-            <div>
+            <div className="cards-container">
                 {   
                     availableClasses.length>0 ?
                     <h3>Available Classes</h3>
                     :<span></span>
                 }
-                <div className="cards">
-                    {
-                        availableClasses.map((item,index) => (
-                            <div className="card" key={index}>
-                                <p>{item.name}</p>
-                                <p>{item.type}</p>
-                                <p>{item.date_time}</p>
-                                <p>{item.duration}</p>
-                                <p>{item.location}</p>
-                                <button onClick={() =>registerToClass(item.id)}>Register</button>
-                            </div>
-                        ))
-                    }
-                </div>
-            </div>
-            <div>
-                {
-                    clientClasses.length>0 ?
                     <div>
-                    <h3>Registered Classes</h3>
-                        <div className="cards">
+                    <div className="cards">
                         {
-                            clientClasses.map((item,index) => (
+                            availableClasses.map((item,index) => (
                                 <div className="card" key={index}>
                                     <p>{item.name}</p>
                                     <p>{item.type}</p>
                                     <p>{item.date_time}</p>
                                     <p>{item.duration}</p>
                                     <p>{item.location}</p>
-                                    <button onClick={() =>unregisterFromClass(item.class_id)}>UnRegister</button>
+                                    <button onClick={() =>registerToClass(item.id)}>Register</button>
                                 </div>
                             ))
                         }
-                        </div>
                     </div>
-                    :<span></span>
-                }
+                </div>
+                <div>
+                    {
+                        clientClasses.length>0 ?
+                        <div>
+                        <h3>Registered Classes</h3>
+                            <div className="cards">
+                            {
+                                clientClasses.map((item,index) => (
+                                    <div className="card" key={index}>
+                                        <p>{item.name}</p>
+                                        <p>{item.type}</p>
+                                        <p>{item.date_time}</p>
+                                        <p>{item.duration}</p>
+                                        <p>{item.location}</p>
+                                        <button onClick={() =>unregisterFromClass(item.class_id)}>UnRegister</button>
+                                    </div>
+                                ))
+                            }
+                            </div>
+                        </div>
+                        :<span></span>
+                    }
+                </div>
             </div>
         </div>
     )

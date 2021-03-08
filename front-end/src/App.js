@@ -10,6 +10,7 @@ import PrivateRoute from './Utils/PrivateRoute';
 import Home from './Components/Home';
 
 
+
 // Component where Instructor can see it's individually created classes.
 // Component where one can see a list of all created classes This component has the ability to register for the classes. 
 // Work on error validation in Class Schema
@@ -33,7 +34,6 @@ function App() {
   
 // Slices of State 
   const [userForm, setUserForm]= useState(initialForm); // State to handle Form
-  const [users, setUsers]= useState([]); // State to keep track of users. Type ARRAY
   const [errors, setErrors]= useState(formErrors);
   const [disabled, setDisabled]=useState(true);
   
@@ -53,16 +53,12 @@ function App() {
   
   return (
     <div className="App">
-      {/* <br/>
-      <br/> */}
+     
       <Link to='/'>
-        <button>Home</button>
+        <button style={{marginTop:'2rem'}}>Home</button>
       </Link>
       
       <br/>
-      <Link to='/class'>
-       <button>Class</button> {/*Temporary Placement for testing Accessing Component*/}
-      </Link>
       <br/>
       <br/>
       <div className=''>
@@ -87,8 +83,6 @@ function App() {
           form={userForm} 
           setForm={setUserForm} 
           formReset={initialForm}
-          setUsers={setUsers}
-          users={users}
           checkErrors={validateFormErrors}
           disabled={disabled}
           />

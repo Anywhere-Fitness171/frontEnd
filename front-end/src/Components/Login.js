@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './Login-stylesheet.css';
 import axios from 'axios';
 import {axiosWithAuth} from '../helpers/axiosWithAuth'; 
 import {useHistory} from 'react-router-dom';
@@ -70,7 +69,7 @@ export default function LoginForm() {
         <div className="Login">
           <header className="Login-header">
             <h1>Login</h1>
-            <img src={lobbygym} alt="gym lobby" />
+            <img src={lobbygym} alt="gym lobby" style={{width:'40%', paddingBottom:'2rem'}} />
           </header>
           <div style={{color: 'red'}}> 
             <div>{errors.username}</div>
@@ -79,16 +78,17 @@ export default function LoginForm() {
           <form onSubmit={onSubmit}>
             <div className="Login-inputs">
               <label>
-                Username
+                Username&nbsp;&nbsp;
                   <input 
                   type="text"
                   name="username"
                   value= {login.username}
                   onChange = {onChange}
                   />
+                  &nbsp;&nbsp;
               </label>
               <label>
-                Password
+                Password&nbsp;&nbsp;
                   <input 
                   type="password" 
                   name="password"
@@ -98,7 +98,7 @@ export default function LoginForm() {
               </label>
             </div>
             <div className="submit-button">
-              <button disabled={disabled}>Submit</button>
+              <button>Submit</button>
             </div>
           </form>
         </div>
