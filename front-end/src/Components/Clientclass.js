@@ -4,10 +4,20 @@ import {axiosWithAuth} from '../helpers/axiosWithAuth';
 
 export default function Clientclass(){
 
+    const searchForm={
+        type:'',
+        date_time:'',
+        duration:'',
+        intensity:'',
+        location:''
+      }
+
     const [allClasses, setAllClasses] = useState([]);
     const [clientClasses, setClientClasses] = useState([]);
     const [idToRemove, setIdToRemove] = useState([]);
     const [updateCards, setUpdateCards] = useState(false);
+    const [search, setSearch] = useState(searchForm);
+    const [disabled, setDisabled] = useState(false);
     const userId = localStorage.getItem('anywhere-fitness-userid');
     
     useEffect(() => {
@@ -56,13 +66,100 @@ export default function Clientclass(){
         })
     }
 
+    const searchFormChange = (event) =>{
+        const {name, value} = event.target
+        setSearch({...search,[name]:value});
+    }
+
+    const searchSubmit = (event) =>{
+        event.preventDefault();
+        console.log(search.date_time.substring(0,search.date_time.length - 6));
+        const items = allClasses.filter((item => {
+            if(search.type !== ''){
+                return item.type.includes(search.type);
+            }
+            if( search.date_time !== ''){
+                return item.date_time.substring(0,search.date_time.length - 6).includes(search.date_time.substring(0,search.date_time.length - 6));
+            }
+            if(search.intensity !== ''){
+                return item.intensity.includes(search.intensity);
+            }
+            if(search.duration !== ''){
+                return parseInt(item.duration) === parseInt(search.duration);
+            }
+            if(search.location !== ''){
+                return item.location.toLowerCase().includes(search.location.toLowerCase());
+            }
+        }));
+        setSearch(searchForm);
+        setDisabled(true);
+        setAllClasses(items);
+    }
+
+    const resetForm = (event) =>{
+        event.preventDefault();
+        setSearch(searchForm);
+        setUpdateCards(updateCards => !updateCards);
+        setDisabled(false);
+    }
+
     const availableClasses = allClasses.filter((item) =>{
         return !idToRemove.includes(item.id);
     })
 
     return(
         <div>
-            <h1>Client Dashboard</h1>          
+            <h1>Client Dashboard</h1>  
+            <form onSubmit={searchSubmit}>
+                <label> Type&nbsp;&nbsp;
+                    <select name="type" 
+                    value={search.type}
+                    onChange={searchFormChange}>
+                        <option value="">---Please Select a Type---</option>
+                        <option value="HIIT">HIIT</option>
+                        <option value="cardio">Cardio</option>
+                        <option value="dance">Dance</option>
+                        <option value="yoga">Yoga</option>
+                    </select>
+                </label>
+                <label> Start Time&nbsp;&nbsp;
+                    <input 
+                    type="datetime-local"
+                    name="date_time"
+                    value={search.date_time}
+                    onChange={searchFormChange}
+                    />
+                </label>               
+                <label> Duration&nbsp;&nbsp;
+                    <input 
+                    type="number"
+                    name="duration"
+                    value={search.duration}
+                    onChange={searchFormChange}
+                    />
+                </label>
+                <label> Intensity&nbsp;&nbsp;
+                    <select name="intensity" 
+                    value={search.intensity}
+                    onChange={searchFormChange}>
+                        <option value="">---Please Select an Intensity---</option>
+                        <option value="low">Low Intensity</option>
+                        <option value="moderate">Moderate Intensity</option>
+                        <option value="high">High Intensity</option>
+                        <option value="extreme">Extreme</option>
+                    </select>
+                </label>
+                <label> Location&nbsp;&nbsp;
+                    <input 
+                    type="text"
+                    name="location"
+                    value={search.location}
+                    onChange={searchFormChange}
+                    />
+                </label>
+                <button disabled={disabled}>Search</button>
+                <button onClick={resetForm}>Reset</button>
+            </form>      
             <div>
                 {   
                     availableClasses.length>0 ?

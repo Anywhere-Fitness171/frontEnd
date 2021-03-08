@@ -67,11 +67,11 @@ function App() {
       <br/>
       <div className=''>
        <Link to='/login'>
-          <button>Login</button>
+          <button>Login  </button>
        </Link>
         &nbsp;&nbsp;
        <Link to='/registration'>
-          <button>Registration</button>
+          <button>Registration  </button>
        </Link>
        <br/>
        <br/>
