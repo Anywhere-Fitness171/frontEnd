@@ -32,7 +32,7 @@ export default function LoginForm() {
   }
   useEffect(() => {
     LoginSchema.isValid(loginForm).then(valid => setDisabled(valid))
-  },[loginForm])
+  },[login])
 
   const onChange = event => {
     const {name, value} = event.target
