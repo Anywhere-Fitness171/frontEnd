@@ -31,7 +31,7 @@ export default function LoginForm() {
     .catch((error) => setErrors({...errors,[name]: error.errors[0]}))
   }
   useEffect(() => {
-    LoginSchema.isValid(loginForm).then(valid => setDisabled(valid))
+    LoginSchema.isValid(login).then(valid => setDisabled(!valid))
   },[login])
 
   const onChange = event => {
