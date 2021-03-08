@@ -1,7 +1,7 @@
 import React from 'react'; 
 import axios from 'axios';  
 import yogapic from '../Assets/yoga-workout.jpg';
-import '../Styles/component-stylesheet.css'
+import '../Styles/registration-stylesheet.css'
 
 
 

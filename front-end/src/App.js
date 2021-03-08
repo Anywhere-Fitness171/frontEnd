@@ -34,7 +34,6 @@ function App() {
   
 // Slices of State 
   const [userForm, setUserForm]= useState(initialForm); // State to handle Form
-  const [users, setUsers]= useState([]); // State to keep track of users. Type ARRAY
   const [errors, setErrors]= useState(formErrors);
   const [disabled, setDisabled]=useState(true);
   
@@ -60,9 +59,6 @@ function App() {
       </Link>
       
       <br/>
-      {/* <Link to='/class'>
-       <button>Class</button> {/*Temporary Placement for testing Accessing Component
-      </Link> */}
       <br/>
       <br/>
       <div className=''>
@@ -87,8 +83,6 @@ function App() {
           form={userForm} 
           setForm={setUserForm} 
           formReset={initialForm}
-          setUsers={setUsers}
-          users={users}
           checkErrors={validateFormErrors}
           disabled={disabled}
           />

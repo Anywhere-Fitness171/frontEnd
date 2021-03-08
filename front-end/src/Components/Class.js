@@ -192,7 +192,7 @@ const userType = localStorage.getItem('user-type');
             {userType === 'instructor' ?
             <div>
            <h1>Instructor Dashboard</h1>
-            <form onSubmit={ClassSubmit}>
+            <form className="class-form" onSubmit={ClassSubmit}>
                 <label> Class Name&nbsp;&nbsp;
                     <input 
                     type="text"
@@ -225,6 +225,7 @@ const userType = localStorage.getItem('user-type');
                     <input 
                     type="number"
                     name="duration"
+                    placeholder="Duration in minutes"
                     value={classForm.duration}
                     onChange={classOnChange}
                     />

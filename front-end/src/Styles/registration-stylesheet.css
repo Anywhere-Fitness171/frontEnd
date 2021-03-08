@@ -1,0 +1,21 @@
+/* Registration Sylesheet  */
+  .parent-container{
+      border: 3px solid black; 
+      width: 50%; 
+      margin: 0 auto; 
+      margin-bottom: 1rem; 
+  }
+  .form-container{
+    border-top: 2px solid black; 
+  }
+  .form-elements{
+      display: flex; 
+      flex-direction: column; 
+      padding:1rem; 
+  }
+  .form-elements input{
+    width: 95%; 
+  }
+  .registration{
+    border-bottom:2px dashed black; 
+  }

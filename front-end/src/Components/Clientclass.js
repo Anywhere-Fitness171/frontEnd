@@ -110,7 +110,7 @@ export default function Clientclass(){
     return(
         <div>
             <h1>Client Dashboard</h1>  
-            <form onSubmit={searchSubmit}>
+            <form className="class-form" onSubmit={searchSubmit}>
                 <label> Type&nbsp;&nbsp;
                     <select name="type" 
                     value={search.type}
@@ -157,8 +157,11 @@ export default function Clientclass(){
                     onChange={searchFormChange}
                     />
                 </label>
-                <button disabled={disabled}>Search</button>
-                <button onClick={resetForm}>Reset</button>
+                    <div className="search-reset"> 
+                        <button disabled={disabled}>Search</button>
+                        &nbsp;&nbsp;
+                        <button onClick={resetForm}>Reset</button>
+                    </div>
             </form>      
             <div className="cards-container">
                 {   
