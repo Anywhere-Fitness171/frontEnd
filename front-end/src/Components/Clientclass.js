@@ -112,6 +112,8 @@ export default function Clientclass(){
             <h1>Client Dashboard</h1>  
             <form className="class-form" onSubmit={searchSubmit}>
                 <label> Type&nbsp;&nbsp;
+                    <br/>
+                    
                     <select name="type" 
                     value={search.type}
                     onChange={searchFormChange}>
@@ -139,6 +141,7 @@ export default function Clientclass(){
                     />
                 </label>
                 <label> Intensity&nbsp;&nbsp;
+                    <br/>
                     <select name="intensity" 
                     value={search.intensity}
                     onChange={searchFormChange}>
